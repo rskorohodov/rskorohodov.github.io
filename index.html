@@ -1,154 +1,655 @@
-<html>
-	<head>
-		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-		<link rel="manifest" href="/manifest.json">
-		<script>
-			let deferredPrompt;
-			$( document ).ready(function() {
-			    if ('serviceWorker' in navigator) {
-				navigator.serviceWorker.register('/service-worker.js', {})
-				.then((reg) => {
-				    // регистрация сработала
-				    console.log('Registration succeeded. Scope is ' + reg.scope);
-				}).catch((error) => {
-				    // регистрация прошла неудачно
-				    console.log('Registration failed with ' + error);
-				});
-			    }
-			    else{
-				console.log("No service worker.");
-			    }
-				var buttonInstall = document.querySelector('#install');	
-				buttonInstall.addEventListener('click', async () => {
-				  console.log("Click registered");
-				  // Hide the app provided install promotion
-				  //hideInstallPromotion();
-				  // Show the install prompt
-				  console.log(deferredPrompt);
-				  deferredPrompt.prompt();
-				  // Wait for the user to respond to the prompt
-				  const { outcome } = await deferredPrompt.userChoice;
-				  // Optionally, send analytics event with outcome of user choice
-				  console.log(`User response to the install prompt: ${outcome}`);
-				  // We've used the prompt, and can't use it again, throw it away
-				  deferredPrompt = null;
-				});
-			})
-        	</script>
-		<style>
-		.box {
-			width: 100%;
-			height: 300px;
-			margin: 50px;
-			background: black;
-			color: white;
-			float:left;
-		}
-		
-		.seen {
-			width: 100%;
-			height: 300px;
-			margin: 50px;
-			background: green;
-			color: white;
-			float:left;
-		}
-		</style>
-		
-		
-		
-		<script>
-		var ids;
-		
-		Element.prototype.appendBefore = function (element) {
-			element.parentNode.insertBefore(this, element);
-		}, false;
-		
-		
-		const Observer = new IntersectionObserver((entries, imgObserver) => {
-			entries.forEach(e => e.isIntersecting && onVisible(e.target) )
-		},{ threshold: 0.5 });
-		
-		const onVisible = elm => {  // что делать с элементами которые в поле видимости
-				elm.className = "seen";
-				elm.replaceWith(elm.cloneNode(true));
-				markAsRead(elm.textContent);  // выводим их в консоль
-		}
-		
-		function init(){
-			document.querySelectorAll('.box').forEach(e => Observer.observe(e) );
-		}
-		
-		function loadPrevious(){
-		}
-		
-		function markAsRead(id){
-			console.log(id);
-		}
-		
-		function sendMessage(){
-			var textArea = document.querySelector('#message');
-			
-			console.log(textArea.value);
-			
-			var newMessage = document.createElement("div");
-			newMessage.className = "seen";
-			newMessage.appendBefore(textArea);
-			newMessage.textContent = textArea.value;
-			textArea.value = "";
-		}
-		
-		document.addEventListener("DOMContentLoaded", function(event) {
-			init();
-			
-			var button = document.querySelector('#submit');
-		
-			button.addEventListener("click", function(event){
-				console.log("Click!");
-				sendMessage();
-			});
-		});
+<!DOCTYPE html>
+<html lang="ru">
 
-		window.addEventListener('beforeinstallprompt', (e) => {
-		  // Prevent the mini-infobar from appearing on mobile
-		  e.preventDefault();
-		  // Stash the event so it can be triggered later.
-		  deferredPrompt = e;
-		  // Update UI notify the user they can install the PWA
-		  //showInstallPromotion();
-		  // Optionally, send analytics event that PWA install promo was shown.
-		  console.log(`'beforeinstallprompt' event was fired.`);
-		});
-		</script>
-	</head>
-	<body>
-		<div style = "float:left; border:1px;">
-			<div>
-				<div style="text-align: center;"><button id="install" style="width:50%; height:200px;">Установить PWA</button></div>
-				<div class="box">1</div>
-				<div class="box">2</div>
-				<div class="box">3</div>
-				<div class="box">4</div>
-				<div class="box">5</div>
-				<div class="box">6</div>
-				<div class="box">7</div>
-				<div class="box">8</div>
-				<div class="box">9</div>
-				<div class="box">10</div>
-				<div class="box">11</div>
-				<div class="box">12</div>
-				<div class="box">13</div>
-				<div class="box">14</div>
-				<div class="box">15</div>
-				<div class="box">16</div>
-				<div class="box">17</div>
-				<div class="box">18</div>
-				<div class="box">19</div>
-				<div class="box">20</div>
-				
-				<textarea id="message"></textarea>
-				<button id = "submit">Отправить</button>
-			</div>
-		</div>
-	</body>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+  <script defer src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+  <link rel="stylesheet" href="./css/normalize.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/media.css">
+  <script defer src="js/script.js"></script>
+  <title>Redstar Support</title>
+</head>
+
+<body class="body">
+  <header class="header">
+    <div class="container">
+      <div class="header__wrapper">
+        <div class="header__logo">
+          <p><span>redstar.</span>agency</p>
+        </div>
+        <div class="header__menu menu">
+          <nav class="menu__body">
+            <ul class="menu__list">
+              <li><a data-goto=".section-1" href="#" class="menu__link">Тарифы</a></li>
+              <li><a data-goto=".section-2" href="#" class="menu__link">Вакансии</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="header__contacts ">
+          <div class="header__contacts-container">
+            <a href="#" class="header__contacts-link">
+              <img src="Imgaes/telegram.svg" alt="telegram" class="header__contacts-img">
+            </a>
+            <a href="#" class="header__contacts-link">
+              <img src="Imgaes/vk.svg" alt="vk" class="header__contacts-img"> </a>
+            <a href="#" class="header__contacts-link">
+              <img src="Imgaes/whatsapp.svg" alt="whatsapp" class="header__contacts-img">
+            </a>
+          </div>
+          <div class="header__contacts-phone">
+            <p class="header__contacts-phone-title">Телефон, WhatsApp, Telegram</p>
+            <a href="#" class="header__contacts-phone-link">
+              <p class="header__contacts-phone-number">88007003431</p>
+            </a>
+          </div>
+        </div>
+        <div class="menu__icon">
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="intro">
+      <div class="container">
+        <div class="intro__wrapper">
+          <div class="intro__text-block">
+            <h1 class="intro__title">Нормальная техподдержка сайта</h1>
+            <p class="intro__subtitle">
+              Обслуживание сайта с почасовой оплатой*<span><br>*иногда и с поминутной</span>
+            </p>
+            <a href="" class="button button--mor intro__button">
+              Дать задание
+            </a>
+          </div>
+          <div class="intro__image">
+            <img src="Imgaes/phone.webp" alt="phone">
+          </div>
+          <div class="intro__benefits">
+            <div class="benefit intro__benefit">
+              <p class="benefit__number">1</p>
+              <p class="benefit__text">Это просто, доступно и удобно</p>
+            </div>
+            <div class="benefit intro__benefit">
+              <p class="benefit__number">2</p>
+              <p class="benefit__text">Мы экономим время и внимание</p>
+            </div>
+            <div class="benefit intro__benefit">
+              <p class="benefit__number">3</p>
+              <p class="benefit__text">Успевайте больше и занимайтесь тем, что для вас важно и интересно!</p>
+            </div>
+            <div class="benefit intro__benefit">
+              <p class="benefit__number">4</p>
+              <p class="benefit__text">Гарантируем безопасность ваших конфиденциальных данных</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="advantages">
+      <div class="container-sm">
+        <div class="advantages__wrapper">
+          <h2 class="advantages__title">Работа с нами на «турбо&nbsp;–&nbsp;скорости»</h2>
+          <div class="advantages__items">
+            <div class="advantages__item">
+              <p class="advantages__item-title">Быстрая и удобная постановка задач</p>
+              <div class="advantages__item-text">
+                <div class="advantages__item-icon">
+                  <img src="Imgaes/heart.svg" alt="heart">
+                  <span>Скорость ответа ассистента 3 минуты</span>
+                </div>
+              </div>
+            </div>
+            <div class="advantages__item">
+              <p class="advantages__item-title">Быстрая и удобная постановка задач</p>
+              <div class="advantages__item-text">
+                <div class="advantages__item-icon">
+                  <img src="Imgaes/calendar.svg" alt="calendar">
+                  <span>Скорость ответа ассистента 3 минуты</span>
+                </div>
+              </div>
+            </div>
+            <div class="advantages__item">
+              <p class="advantages__item-title">Быстрая и удобная постановка задач</p>
+              <div class="advantages__item-text">
+                <div class="advantages__item-icon">
+                  <img src="Imgaes/shield.svg" alt="shield">
+                  <span>Скорость ответа ассистента 3 минуты</span>
+                </div>
+              </div>
+            </div>
+            <div class="advantages__item">
+              <p class="advantages__item-title">Быстрая и удобная постановка задач</p>
+              <div class="advantages__item-text">
+                <div class="advantages__item-icon">
+                  <img src="Imgaes/time.svg" alt="time">
+                  <span>Скорость ответа ассистента 3 минуты</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tasks">
+      <div class="container">
+        <div class="tasks__wrapper">
+          <div class="tasks__intro-wrapper">
+            <h2 class="tasks__title">Какие задачи мы выполняем</h2>
+            <div>
+              <p class="tasks__text tasks__text--sm">Делаем <span class="tasks__text-span">быстро и чётко.</span>
+                <span class="tasks__text-span">Экономим</span> ваше время.
+              </p>
+              <p class="tasks__text"><span class="tasks__text-span">В нашем арсенале</span> десятки чек-листов, сервисов
+                и
+                приложений, которые
+                <span class="tasks__text-span">ускоряют</span> нашу
+                работу.
+              </p>
+            </div>
+          </div>
+          <div class="tasks__slider">
+            <div class="swiper mySwiper">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide tasks__slide">
+                  <h3 class="tasks__slide-title">Техническая поддержка</h3>
+                  <div class="tasks__slide-img">
+                    <img src="Imgaes/task.webp" alt="task">
+                  </div>
+                </div>
+                <div class="swiper-slide  tasks__slide">
+                  <h3 class="tasks__slide-title">Техническая поддержка</h3>
+                  <div class="tasks__slide-img">
+                    <img src="Imgaes/task.webp" alt="task">
+                  </div>
+                </div>
+                <div class="swiper-slide tasks__slide">
+                  <h3 class="tasks__slide-title">Техническая поддержка</h3>
+                  <div class="tasks__slide-img">
+                    <img src="Imgaes/task.webp" alt="task">
+                  </div>
+                </div>
+                <div class="swiper-slide tasks__slide">
+                  <h3 class="tasks__slide-title">Техническая поддержка</h3>
+                  <div class="tasks__slide-img">
+                    <img src="Imgaes/task.webp" alt="task">
+                  </div>
+                </div>
+              </div>
+              <div class="swiper-pagination"></div>
+              <div class="swiper-button-next"></div>
+              <div class="swiper-button-prev"></div>
+            </div>
+          </div>
+          <a href="" class="button button--mor tasks__button">
+            Дать задание
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="advantages explanation">
+      <div class="container">
+        <div class="advantages__wrapper explanation__wrapper">
+          <h2 class="block-title block-title--white explanation__title ">Нормальная техподдержка это когда:</h2>
+          <div class="explanation__items">
+            <div class="explanation__item">
+              Нормальный<br>документооборот
+            </div>
+            <div class="explanation__item">
+              Нормальное<br>общение
+            </div>
+            <div class="explanation__item">
+              Нормальная<br>стоимость
+            </div>
+          </div>
+          <div class="buttons explanation__buttons">
+            <a href="#" class="button button--yelow explanation__button">
+              Дать задание
+            </a>
+            <a href="#" class="button button--in explanation__button">
+              Дать задание
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="price">
+      <div class="container">
+        <div class="block-wrapper price__wrapper">
+          <h2 class="block-title price__title">Пример стоимости</h2>
+          <div class="price__prices prices">
+            <div class="prices__item">
+              <img src="Imgaes/meteor.webp" alt="meteor">
+              <p class="prices__item-text">Найти в аренду машину в Стамбуле, Турция — 14 минут на выполнение, 196
+                рублей.</p>
+            </div>
+            <div class="prices__item">
+              <img src="Imgaes/meteor.webp" alt="meteor">
+              <p class="prices__item-text">Найти в аренду машину в Стамбуле, Турция — 14 минут на выполнение, 196
+                рублей.</p>
+            </div>
+            <div class="prices__item">
+              <img src="Imgaes/meteor.webp" alt="meteor">
+              <p class="prices__item-text">Найти в аренду машину в Стамбуле, Турция — 14 минут на выполнение, 196
+                рублей.</p>
+            </div>
+            <div class="prices__item">
+              <img src="Imgaes/meteor.webp" alt="meteor">
+              <p class="prices__item-text">Найти в аренду машину в Стамбуле, Турция — 14 минут на выполнение, 196
+                рублей.</p>
+            </div>
+            <div class="prices__item">
+              <img src="Imgaes/meteor.webp" alt="meteor">
+              <p class="prices__item-text">Найти в аренду машину в Стамбуле, Турция — 14 минут на выполнение, 196
+                рублей.</p>
+            </div>
+            <div class="prices__item">
+              <img src="Imgaes/meteor.webp" alt="meteor">
+              <p class="prices__item-text">Найти в аренду машину в Стамбуле, Турция — 14 минут на выполнение, 196
+                рублей.</p>
+            </div>
+          </div>
+          <a href="#" class="button button--yelow explanation__button button--align-center">
+            Дать задание
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="audio">
+      <div class="container">
+        <div class="block-wrapper audio__wrapper">
+          <div class="audio__row">
+            <div class="audio__images">
+              <div class="audio__image">
+                <img src="Imgaes/audio-1.webp" alt="audio">
+              </div>
+              <div class="audio__image audio__image--brake">
+                <img src="Imgaes/audio-2.webp" alt="audio">
+              </div>
+            </div>
+            <div class="audio__text-content">
+              <h2 class="block-title audio__title">Это также просто,как сказать «Ок, гугл»</h2>
+              <p class="audio__subtitle">Всё просто:</p>
+              <div class="audio__instructions">
+                <div class="instruction audio__instruction">
+                  <div class="instruction__number">1</div>
+                  <div class="instruction__text">Отправляйте задачи в WhatsApp или в Telegram сообщение (аудио-, видео-
+                    или текст)
+                  </div>
+                </div>
+                <div class="instruction audio__instruction">
+                  <div class="instruction__number">2</div>
+                  <div class="instruction__text">Менеджер проекта задаст уточняющие вопросы</div>
+                </div>
+                <div class="instruction audio__instruction">
+                  <div class="instruction__number">3</div>
+                  <div class="instruction__text">Даст оценку задачи до начала ее выполнения</div>
+                </div>
+                <div class="instruction audio__instruction">
+                  <div class="instruction__number">4</div>
+                  <div class="instruction__text">Пришлем все документы по ЭДО или почтой</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="audio__row">
+            <div class="prolog">Да, и никакой абонентской платы. Попробуйте!</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="clients">
+      <div class="container">
+        <div class="block-wrapper clients__wrapper">
+          <h2 class="block-title clients__title">Наши клиенты, сколько лет с нами
+          </h2>
+          <div class="clients__items">
+            <div class="clients__row">
+              <div class="client clients__client client--lg">
+                <div class="client__image">
+                  <img src="Imgaes/client.svg" alt="client">
+                </div>
+                <div class="client__years">10 лет</div>
+              </div>
+              <div class="client clients__client client--lg">
+                <div class="client__image">
+                  <img src="Imgaes/client.svg" alt="client">
+                </div>
+                <div class="client__years">10 лет</div>
+              </div>
+              <div class="client clients__client client--lg">
+                <div class="client__image">
+                  <img src="Imgaes/client-2.svg" alt="client">
+                </div>
+                <div class="client__years">10 лет</div>
+              </div>
+
+              <div class="client clients__client">
+                <div class="client__image">
+                  <img src="Imgaes/client.svg" alt="client">
+                </div>
+                <div class="client__years">10 лет</div>
+              </div>
+              <div class="client clients__client">
+                <div class="client__image">
+                  <img src="Imgaes/client.svg" alt="client">
+                </div>
+                <div class="client__years">10 лет</div>
+              </div>
+              <div class="client clients__client">
+                <div class="client__image">
+                  <img src="Imgaes/client-2.svg" alt="client">
+                </div>
+                <div class="client__years">10 лет</div>
+              </div>
+              <div class="client clients__client">
+                <div class="client__image">
+                  <img src="Imgaes/client-2.svg" alt="client">
+                </div>
+                <div class="client__years">10 лет</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="magnet">
+      <div class="container-sm">
+        <div class="block-wrapper magnet__wrapper">
+          <h2 class="block-title magnet__title">Мы за честность и прозрачность</h2>
+          <p class="magnet__subtitle">Мы хотим, чтобы всё было честно и прозрачно. Мы уважаем своих пользователей. И
+            если вы считаете, что помощник завышает время, то напишите, пожалуйста, нам!<br>Для нас это важно</p>
+          <div class="phone-block magnet__phone-block">
+            <div class="phone-block__title">Телефон</div>
+            <a href="#" class="phone-block__phone">88007003431</a>
+          </div>
+          <div class="buttons explanation__buttons">
+            <a href="#" class="button button--soc explanation__button">
+              <img src="Imgaes/w.svg" alt="webp">
+              WhatsApp
+            </a>
+            <a href="#" class="button button--soc explanation__button">
+              <img src="Imgaes/t.svg" alt="table">
+              Telegram
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="table section-1">
+      <div class="container">
+        <div class="block-wrapper table__wrapper">
+          <h2 class="block-title table__title">Предоплаченные тарифы</h2>
+          <div class="prices-container table__prices-container">
+            <!-- Swiper -->
+            <div class="swiper priceSwiper">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide  price-slide price-slide--tech">
+                  <div class="price-slide__content">
+                    <div class="price-slide__row">Тариф для Битрикс</div>
+                    <div class="price-slide__row">Кол-во часов</div>
+                    <div class="price-slide__row">Стоимость часа</div>
+                    <div class="price-slide__row">Время реагирования</div>
+                    <div class="price-slide__row">Кол-во сайтов</div>
+                    <div class="price-slide__row">Час сверх пакета</div>
+                    <div class="price-slide__row price-slide__row--bold">Стоимость</div>
+                  </div>
+                </div>
+
+                <div class="swiper-slide  price-slide  ">
+                  <div class="price-slide__content">
+                    <div class="price-slide__row price-slide__row--title">«Старт»</div>
+                    <div class="price-slide__row"><span class="price-slide__span">Кол-во часов:</span>5</div>
+                    <div class="price-slide__row"><span class="price-slide__span">Стоимость часа:</span>1900&nbsp;₽
+                    </div>
+                    <div class="price-slide__row"><span class="price-slide__span">Время реагирования:</span>3&nbsp;ч.
+                    </div>
+                    <div class="price-slide__row"><span class="price-slide__span">Кол-во сайтов:</span>1</div>
+                    <div class="price-slide__row"><span class="price-slide__span">Час сверх пакета:</span>1900&nbsp;p
+                    </div>
+                    <div class="price-slide__row price-slide__row--bold">
+                      <span class="price-slide__span">Стоимость:</span>9500&nbsp;₽
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide  price-slide ">
+                  <div class="price-slide__content">
+                    <div class="price-slide__row price-slide__row--title">«Стандарт»</div>
+                    <div class="price-slide__row"><span class="price-slide__span">Кол-во часов:</span>10</div>
+                    <div class="price-slide__row"><span class="price-slide__span">Стоимость часа:</span>1800&nbsp;₽
+                    </div>
+                    <div class="price-slide__row"><span class="price-slide__span">Время реагирования:</span>3&nbsp;ч.
+                    </div>
+                    <div class="price-slide__row"><span class="price-slide__span">Кол-во сайтов:</span>∞</div>
+                    <div class="price-slide__row"><span class="price-slide__span">Час сверх пакета:</span>1800&nbsp;₽
+                    </div>
+                    <div class="price-slide__row price-slide__row--bold">
+                      <span class="price-slide__span">Стоимость:</span>18&nbsp;000&nbsp;₽
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide  price-slide price-slide--top">
+                  <div class="price-slide__content">
+                    <div class="price-slide__row price-slide__row--title">«Бизнес»</div>
+                    <div class="price-slide__row"><span class="price-slide__span">Кол-во часов:</span>20</div>
+                    <div class="price-slide__row"><span class="price-slide__span">Стоимость часа:</span>1700&nbsp;₽
+                    </div>
+                    <div class="price-slide__row"><span class="price-slide__span">Время реагирования:</span>1&nbsp;ч.
+                    </div>
+                    <div class="price-slide__row"><span class="price-slide__span">Кол-во сайтов:</span>∞</div>
+                    <div class="price-slide__row"><span class="price-slide__span">Час сверх пакета:</span>1900&nbsp;₽
+                    </div>
+                    <div class="price-slide__row price-slide__row--bold">
+                      <span class="price-slide__span">Стоимость:</span>34&nbsp;000&nbsp;₽
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide  price-slide ">
+                  <div class="price-slide__content">
+                    <div class="price-slide__row price-slide__row--title">«Большой»</div>
+                    <div class="price-slide__row"><span class="price-slide__span">Кол-во часов:</span>100</div>
+                    <div class="price-slide__row"><span class="price-slide__span">Стоимость часа:</span>1500&nbsp;₽
+                    </div>
+                    <div class="price-slide__row"><span class="price-slide__span">Время реагирования:</span>1&nbsp;ч.
+                    </div>
+                    <div class="price-slide__row"><span class="price-slide__span">Кол-во сайтов:</span>∞</div>
+                    <div class="price-slide__row"><span class="price-slide__span">Час сверх пакета:</span>1500&nbsp;₽
+                    </div>
+                    <div class="price-slide__row price-slide__row--bold">
+                      <span class="price-slide__span">Стоимость:</span>150&nbsp;000&nbsp;₽
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="swiper-button-next"></div>
+              <div class="swiper-button-prev"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="support-price">
+      <div class="container">
+        <div class="block-wrapper">
+          <h2 class="block-title support-price__title">Стоимость техподдержки</h2>
+          <div class="support-price__block price-block">
+            <div class="price-block-pices">
+              <div class="price-block-pices__price">
+                <div class="price-block-pices__price-number">2000&nbsp;<span>₽&nbsp;/&nbsp;час</span></div>
+                <div class="price-block-pices__price-title">за задачи по Битрикс и Wordpress</div>
+              </div>
+              <div class="price-block-pices__price">
+                <div class="price-block-pices__price-number">2000&nbsp;<span>₽&nbsp;/&nbsp;час</span></div>
+                <div class="price-block-pices__price-title">за задачи по остальным CMS</div>
+              </div>
+            </div>
+            <div class="price-block-text">
+              <div class="price-block-text__text">Оплата «по факту». Вы ставите задачи, мы их выполняем, в конце
+                отчетного периода формируем счет за выполненные и принятые задачи</div>
+              <div class="price-block-text__text">На все завершенные задачи дается гарантия. В случае обнаружения ошибки
+                — мы исправляем ее бесплатно. Гарантия формально 3 мес. Но можно обратиться к и через год. Мы не бросаем
+                своих клиентов</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sla">
+      <div class="container">
+        <div class="block-wrapper">
+          <h2 class="block-title block-title--white sla__title">SLA Соглашение об уровне сервиса
+          </h2>
+          <div class="sla__subtitle">
+            SLA – это формат поддержки сайтов, с подробным описанием всех условий и сроков. Даже время реакции на ваше
+            обращение строго регламентируется договором
+          </div>
+          <div class="sla__content">
+            <div class="accord">
+              <div class="question js-accordion">
+                <div class="question__trigger">
+                  Реагируем на критические сбои за 15 минут
+                  <span></span>
+                </div>
+              </div>
+              <div class="answer">
+                <div>
+                  Если выходной, праздник, или вечернее время - мы примем срочную задачу в работу и устраним
+                  неисправность, иногда проблема может быть решена за минуты.
+                  Критических сбоев происходит обычно не более 2-х в год на все проекты, но когда они случаются, мы
+                  реагируем очень быстро.
+                </div>
+              </div>
+              <div class="question js-accordion">
+                <div class="question__trigger">
+                  Берем задачу в работу за 1 час
+                  <span></span>
+                </div>
+              </div>
+              <div class="answer">
+                <div class="answer__content">
+                  Как только от вас поступает задача — она фиксируется в системе. И в течение 1 часа она уже поступает
+                  вашему менеджеру на оценку (от 2-х до 5-и часов) и последующую передачу в работу
+                </div>
+              </div>
+              <div class="question js-accordion">
+                <div class="question__trigger">
+                  Не тестируем на «боевом»
+                  <span></span>
+                </div>
+              </div>
+              <div class="answer">
+                <div class="answer__content">
+                  Все изменения, даже незначительные, мы предварительно проверяем на тестовом сервере. И только потом
+                  внедряем и тестируем на «боевом» сервере
+                </div>
+              </div>
+              <div class="question js-accordion">
+                <div class="question__trigger">
+                  Храним Back up
+                  <span></span>
+                </div>
+              </div>
+              <div class="answer">
+                <div class="answer__content">
+                  Очень важная часть технической поддержки - хранить резервные копии проектов до внесения доработок и
+                  улучшений. Резервные копии хранятся до того момента, пока проект не покажет полную и безотказную
+                  работоспособность
+                </div>
+              </div>
+              <div class="question js-accordion last">
+                <div class="question__trigger">
+                  Непрерывный мониторинг
+                  <span></span>
+                </div>
+              </div>
+              <div class="answer">
+                <div class="answer__content">
+                  <ul>
+                    <li> Автоматический мониторинг следит за скоростью работы сайта, нагрузкой на сервер и количеством
+                      доступных ресурсов;</li>
+                    <li>
+                      Каждую неделю проводим ручные проверки: проверка сайта, сканер безопасности, производительность
+                      сайта;
+                    </li>
+                    <li>
+                      Каждые две недели проверяем качество нового кода в проекте.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer section-2">
+    <div class="container">
+      <div class=" footer__wrapper">
+        <h2 class="block-title footer__title">
+          Контакты
+        </h2>
+        <div class="footer__info">
+          <div class="footer__info-item info-item">
+            <div class="info-item__title">ТЕЛЕФОН:</div>
+            <div class="info-item__content"><a href="">88007003431</a></div>
+          </div>
+          <div class="footer__info-item info-item">
+            <div class="info-item__title">EMAIL:</div>
+            <div class="info-item__content"><a href="">hello@redstaragency.ru</a></div>
+          </div>
+          <div class="footer__info-item info-item">
+            <div class="info-item__title">АДРЕС:</div>
+            <div class="info-item__content">г. Ярославль, Октябрьский переулок, дом 3, офис 207</div>
+          </div>
+        </div>
+        <div class="footer__info">
+          <div class="footer__info-item info-item">
+            <div class="info-item__title">ГРАФИК РАБОТЫ:</div>
+            <div class="info-item__content">
+              Пн-Пт: с 9-00 по 18-00 Мск<br>
+              Сб: с 10-00 по 16-00 Мск<br>
+              Вс: выходной
+            </div>
+          </div>
+          <div class="footer__info-item info-item">
+            <div class="info-item__title">СОЦ. СЕТИ</div>
+            <a href="#" class="info-item__soclink"><svg viewBox="1 -35 511.99993 511"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="m121.453125 253.171875 63.554687 158.886719 82.75-82.753906 141.535157 112.503906 102.707031-441.308594-512 205.480469zm-39.933594-47.640625 244.046875-97.945312-194.074218 117.363281zm287.535157-89.25-161.980469 148.1875-19.484375 73.425781-36.035156-90.085937zm-149.851563 219.230469 9.816406-36.996094 15.144531 12.035156zm171.65625 53.394531-147.386719-117.152344 221.902344-203.007812zm0 0">
+                </path>
+              </svg></a>
+            <a href="#" class="info-item__soclink"><svg viewBox="1 -104 511.99902 511"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="m456.738281 202.101562-.277343-.257812c-4.371094-4.035156-17.761719-17.066406-22.277344-22.761719-5.300782-7.105469-4.078125-11.761719-.105469-18.738281 5.019531-8.816406 15.078125-22.339844 25.722656-36.660156 34.09375-45.851563 56.105469-77.59375 51.574219-100.140625l-2.441406-12.042969-125.910156.054688c-.441407 1.1875-7.011719 30.050781-34.738282 79.199218-20.105468 35.636719-33.292968 46.832032-37.9375 48.808594l-.71875-.21875c-1.511718-1.867188-4.152344-6.90625-5.238281-19.894531-1.132813-13.605469-.128906-30.078125.84375-46.007813 1.136719-18.679687 2.117187-34.8125-.230469-46.355468l-3.824218-18.804688c-4.621094-.738281-21.539063-7.265625-68.675782-7.761719-40.808594-.417969-52.796875 5.476563-58.683594 10.671875l-19.472656 17.183594 24.613282 8.28125c9.367187 3.152344 12.476562 6.789062 15.027343 24.816406 1.664063 11.75 2.535157 31.496094.738281 49.125-2.582031 25.277344-8.773437 29.980469-9.09375 30.230469-1.066406-.363281-10.109374-4.320313-25.808593-37.511719-10.890625-23.019531-20.4375-50.25-27.414063-70.132812-7.984375-22.769532-6.546875-17.921875-10.597656-28.679688l-121.8125-.003906 7.882812 20.390625c32.863282 85.089844 63.015626 151.539063 103.367188 199.265625 44.582031 52.730469 99.988281 80.339844 174.621094 80.339844h15v-15c0-14.023438 1.160156-24.121094 3.648437-31.777344 1.519531-4.664062 3.539063-8.519531 5.660157-12.5625 3.148437-5.953125 6.226562-8.503906 7.90625-8.882812 1.523437-.347657 4.203124.769531 7.171874 2.984374 8.523438 6.355469 15.289063 14.707032 22.453126 23.550782 10.335937 12.761718 21.023437 25.953125 37.980468 34.589844 9.265625 4.71875 26.25 7.101562 35.597656 7.101562 2.472657 0 90.601563-.003906 90.710938-.003906l-.644531-15.617188c-.960938-23.351562-19.339844-52.550781-54.617188-86.777344zm-34.867187 72.394532h-.242188c-6.445312.105468-18.746094-2.007813-22.324218-3.828125-11.273438-5.742188-19.152344-15.472657-28.28125-26.738281-8.011719-9.894532-16.296876-20.125-27.832032-28.722657-9.328125-6.957031-17.800781-8.992187-24.527344-8.992187-2.6875 0-5.101562.324218-7.171874.792968-7.808594 1.757813-18.976563 7.375-27.855469 24.167969-2.503907 4.777344-5.34375 10.1875-7.644531 17.265625-2.410157 7.40625-3.910157 15.636719-4.625 25.648438-56.242188-3.195313-100.128907-25.445313-137.207032-69.300782-34.472656-40.777343-61.59375-97.8125-90.316406-170.300781 2.078125 0 54.152344.007813 57.226562.007813.941407 2.644531 1.957032 5.542968 3.035157 8.613281 7.519531 21.449219 17.820312 50.820313 29.957031 75.867187 17.378906 35.867188 33.25 51.863282 51.457031 51.863282 9.089844 0 17.242188-3.851563 23.574219-11.144532 9.027344-10.394531 14.269531-27.550781 16.027344-52.453124 1.386718-19.636719.097656-39.195313-1.425782-49.972657-1.257812-8.867187-3.050781-18.175781-7.425781-26.515625 18.644531-.839844 43.609375.488282 59.425781 2.757813 1.4375 7.828125.5 23.214843-.40625 38.101562-2.191406 35.960938-4.453124 73.070313 14.582032 90.433594 3.347656 3.054687 6.898437 4.691406 7 4.757813l9.6875 2.972656c3.738281-1.152344 25.390625 9.832031 66.390625-61.71875 13.136719-22.925782 25.367187-49.34375 31.953125-66.597656 15.273437-.03125 67.308594.027343 73.421875.035156-8.660157 19.058594-29.183594 46.242187-42.597657 64.285156-11.695312 15.726562-21.792968 29.308594-27.71875 39.714844-11.007812 19.332031-9.15625 36.5625 2.308594 51.761718l.179688.234376c6.398437 8.144531 22.199218 23.222656 25.476562 26.261718 23.742188 23.050782 35.183594 39.609375 40.628906 50.738282h-54.730468zm0 0">
+                </path>
+              </svg></a>
+          </div>
+        </div>
+        <div class="footer__image">
+          <div class="footer__image-block">
+            <img src="Imgaes/phone-call.webp" alt="www">
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+
 </html>

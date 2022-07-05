@@ -1,0 +1,456 @@
+@media (max-width: 1170px) {
+  .header__nav-item {
+    display: none;
+  }
+
+  .intro__title {
+    max-width: 375px;
+  }
+
+  .audio__row:not(:last-child) {
+    margin-bottom: 60px;
+  }
+
+  .audio__image--brake {
+    transform: translateY(50px);
+  }
+
+  .audio__text-content {
+    padding-left: 10px;
+    max-width: 380px;
+  }
+
+  .audio__subtitle {
+    margin-bottom: 34px;
+  }
+
+  .instruction:not(:last-child) {
+    margin-bottom: 27px;
+  }
+
+  .instruction__text {
+    padding-left: 28px;
+  }
+
+  .price-slide__content {
+    max-width: 165px;
+  }
+
+  .footer__image {
+    width: 400px;
+    height: 400px;
+    margin-top: -100px;
+  }
+}
+
+/* --------------------------------------------- 1170 end */
+
+
+@media (max-width: 992px) {
+  .header__logo {
+    font-size: 18px;
+  }
+
+  .header__logo span {
+    font-size: 42px;
+  }
+
+  .header__logo::before {
+    height: 40px;
+    width: 40px;
+  }
+
+  .header__logo p {
+    padding-left: 50px;
+  }
+
+  .header__contacts-img {
+    width: 70px;
+  }
+
+  .intro__wrapper {
+    flex-wrap: wrap;
+  }
+
+  .intro__benefits {
+    max-width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .benefit {
+    max-width: 215px;
+  }
+
+  .benefit:not(:last-child) {
+    margin-right: 25px;
+  }
+
+  .benefit__text {
+    padding-left: 12px;
+  }
+
+  .tasks__title {
+    margin-bottom: 20px;
+
+  }
+
+  .tasks__wrapper {
+    padding: 70px 0;
+  }
+
+  .block-wrapper {
+    padding: 70px 0;
+  }
+
+  .prices__item {
+    max-width: 80%;
+  }
+
+  .price__prices {
+    justify-content: center;
+  }
+
+  .audio__row {
+    flex-direction: column-reverse;
+  }
+
+  .audio__text-content {
+    margin: 0 auto;
+  }
+
+  .audio__images {
+    margin: 0 auto;
+  }
+
+  .audio__instructions {
+    margin-bottom: 50px;
+  }
+
+  .prolog {
+    margin: 0 auto;
+    font-size: 20px;
+  }
+
+  .clients__row {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .clients__row--sm {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .clients__client {
+    width: calc(33.19% - 2px);
+  }
+
+  .client--lg {
+    width: calc(33.19% - 2px);
+  }
+
+
+  .magnet__title {
+    margin-bottom: 28px;
+  }
+
+  .price-slide--tech {
+    display: none !important;
+  }
+
+  .price-slide__span {
+    display: block;
+  }
+
+  .price-slide__row {
+    padding: 15px 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .price-slide__span {
+    margin-right: 5px;
+    margin-bottom: 3px;
+  }
+
+  .price-slide {
+    width: calc(25% - 2px) !important;
+  }
+
+
+  .footer__wrapper {
+    justify-content: center;
+  }
+
+  .footer__title {
+    text-align: center;
+  }
+
+  .footer__image {
+    display: none;
+  }
+
+  .footer__info {
+    padding-right: 30px;
+    z-index: 11;
+    background-color: white;
+    border-radius: 10px;
+  }
+}
+
+/* ----------------------------------------------- 992 end */
+
+
+@media (max-width: 768px) {
+  .header__logo {
+    padding-top: 10px;
+  }
+
+  .header__contacts-container {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header__contacts-img {
+    width: 100px;
+  }
+
+  .intro__title {
+    max-width: 500px;
+    margin-bottom: 30px;
+    margin-top: 10px;
+  }
+
+  .intro__image {
+    margin-bottom: 40px;
+  }
+
+  .intro__button {
+    margin: 0 auto 35px auto;
+  }
+
+  .intro__subtitle {
+    margin-bottom: 30px;
+  }
+
+  .benefit:not(:last-child) {
+    margin-right: 0;
+  }
+
+  .advantages__title {
+    font-size: 34px;
+    text-align: center;
+  }
+
+  .block-title {
+    font-size: 34px;
+  }
+
+  .block-title--white {
+    color: #fff;
+  }
+
+  .advantages__items {
+    justify-content: center;
+  }
+
+  .advantages__item {
+    max-width: 70%;
+  }
+
+  .tasks__title {
+    font-size: 34px;
+  }
+
+  .tasks__wrapper {
+    padding: 40px 0;
+  }
+
+  .block-wrapper {
+    padding: 40px 0;
+  }
+
+  .clients__client {
+    width: calc(50% - 2px);
+  }
+
+  .client--lg {
+    width: calc(50% - 2px);
+  }
+
+  .magnet__title {
+    margin-bottom: 18px;
+  }
+
+  .price-slide {
+    padding: 20px 0;
+    display: block;
+    width: 100% !important;
+
+  }
+
+  .price-slide__content {
+    max-width: 250px;
+  }
+
+  .support-price__block {
+    flex-wrap: wrap;
+  }
+
+  .price-block-pices {
+    border-right: none;
+    margin-bottom: 20px;
+  }
+
+  .price-block-pices__price {
+    padding-right: 0;
+  }
+
+  .price-block-pices__price:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  .footer__info {
+    padding-right: 0;
+    width: 100%;
+
+  }
+
+  .footer__info-item {
+    margin: 0 auto;
+    margin-bottom: 30px;
+  }
+
+  .menu__list>li {
+    line-height: 1;
+    font-weight: 500;
+    font-size: 24px;
+  }
+}
+
+/* -------------------------------------------------- 768 end */
+
+
+@media (max-width: 567px) {
+  .header__logo {
+    font-size: 14px;
+  }
+
+  .header__logo p {
+    padding-left: 40px;
+  }
+
+  .header__logo span {
+    font-size: 35px;
+  }
+
+  .header__logo::before {
+    height: 30px;
+    width: 30px;
+  }
+
+  .header__contacts-phone {
+    display: none;
+  }
+
+  .intro__benefits {
+    justify-content: space-evenly;
+  }
+
+  .intro__title {
+    font-size: 36px;
+  }
+
+  .intro__subtitle {
+    font-size: 24px;
+  }
+
+  .intro {
+    padding: 75px 0 40px 0;
+  }
+
+  .advantages__item {
+    max-width: 100%;
+  }
+
+  .advantages__wrapper {
+    padding: 20px 0;
+  }
+
+  .advantages__item-icon span {
+    display: block;
+    padding-left: 12px;
+  }
+
+  .advantages__item-text {
+    color: #000000;
+    font-size: 17px;
+  }
+
+  .advantages__title {
+    font-size: 28px;
+  }
+
+  .explanation__item {
+    padding: 0 20px 0 23px;
+    min-width: 265px;
+  }
+
+  .block-title {
+    font-size: 28px;
+  }
+
+  .prices__item {
+    max-width: 100%;
+  }
+
+  .audio__image--brake {
+    display: none;
+  }
+
+  .instruction__text {
+    font-size: 18px;
+  }
+
+  .instruction__number {
+    font-size: 53px;
+  }
+
+  .clients__row {
+    grid-template-columns: 1fr;
+  }
+
+  .clients__row--sm {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .clients__client {
+    width: 100%;
+  }
+
+  .client--lg {
+    width: 100%;
+  }
+
+  .client {
+    padding: 15px 24px 0px 24px;
+  }
+
+  .clients__title {
+    margin-bottom: 15px;
+  }
+
+  .client__years {
+    font-size: 22px;
+  }
+
+  .price-block-text {
+    padding-left: 0;
+  }
+}
+
+/* ------------------------------------567 end */
