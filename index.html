@@ -2,6 +2,53 @@
 <html lang="ru">
 
 <head>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+		<link rel="manifest" href="/manifest.json">
+		<script>
+			let deferredPrompt;
+			$( document ).ready(function() {
+			    if ('serviceWorker' in navigator) {
+				navigator.serviceWorker.register('/service-worker.js', {})
+				.then((reg) => {
+				    // регистрация сработала
+				    console.log('Registration succeeded. Scope is ' + reg.scope);
+				}).catch((error) => {
+				    // регистрация прошла неудачно
+				    console.log('Registration failed with ' + error);
+				});
+			    }
+			    else{
+				console.log("No service worker.");
+			    }
+				var buttonInstall = document.querySelector('#install');	
+				buttonInstall.addEventListener('click', async () => {
+				  console.log("Click registered");
+				  // Hide the app provided install promotion
+				  //hideInstallPromotion();
+				  // Show the install prompt
+				  console.log(deferredPrompt);
+				  deferredPrompt.prompt();
+				  // Wait for the user to respond to the prompt
+				  const { outcome } = await deferredPrompt.userChoice;
+				  // Optionally, send analytics event with outcome of user choice
+				  console.log(`User response to the install prompt: ${outcome}`);
+				  // We've used the prompt, and can't use it again, throw it away
+				  deferredPrompt = null;
+				});
+			});
+      
+      window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent the mini-infobar from appearing on mobile
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+        // Update UI notify the user they can install the PWA
+        //showInstallPromotion();
+        // Optionally, send analytics event that PWA install promo was shown.
+        console.log(`'beforeinstallprompt' event was fired.`);
+      });
+		</script>
+   </script>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +62,7 @@
 </head>
 
 <body class="body">
+  <div style="text-align: center;"><button id="install" style="width:50%; height:200px;">Установить PWA</button></div>
   <header class="header">
     <div class="container">
       <div class="header__wrapper">
