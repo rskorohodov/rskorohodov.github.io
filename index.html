@@ -5,6 +5,28 @@
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 		<link rel="manifest" href="/manifest.json">
 		<script>
+			const button = document.getElementById('notifications');
+			button.addEventListener('click', () => {
+			  Notification.requestPermission().then((result) => {
+			    if (result === 'granted') {
+			      randomNotification();
+			    }
+			  });
+			});
+			
+			function randomNotification() {
+			  const randomItem = Math.floor(Math.random() * 10);
+			  const notifTitle = randomItem;
+			  const notifBody = `Created by no one.`;
+			  const notifImg = `/test.png`;
+			  const options = {
+			    body: notifBody,
+			    icon: notifImg,
+			  };
+			  new Notification(notifTitle, options);
+			  setTimeout(randomNotification, 30000);
+			}
+			
 			let deferredPrompt;
 			$( document ).ready(function() {
 			    if ('serviceWorker' in navigator) {
@@ -63,6 +85,7 @@
 
 <body class="body">
   <div style="text-align: center;"><button id="install" style="width:50%; height:200px;">Установить PWA</button></div>
+  <div style="text-align: center;"><button id="notifications" style="width:50%; height:200px;">Notifications</button></div>
   <header class="header">
     <div class="container">
       <div class="header__wrapper">
