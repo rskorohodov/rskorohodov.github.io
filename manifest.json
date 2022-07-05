@@ -1,0 +1,17 @@
+{
+ "short_name": "Кастомное имя",
+ "name": "Кастомное имя",
+ "start_url": "https://rskorohodov.github.io/",
+ "scope": "https://rskorohodov.github.io/",
+ "background_color": "#7ACCE5",
+ "theme_color": "#7ACCE5",
+ "orientation": "any",
+ "display": "standalone",
+ "icons": [
+   {
+   "src":"https://rskorohodov.github.io/test.png",
+     "sizes": "192x192",
+     "type": "image/png"
+   }
+ ]
+}
