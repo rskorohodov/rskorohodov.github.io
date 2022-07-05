@@ -17,6 +17,21 @@
 			    else{
 				console.log("No service worker.");
 			    }
+				var buttonInstall = document.querySelector('#install');	
+				buttonInstall.addEventListener('click', async () => {
+				  console.log("Click registered");
+				  // Hide the app provided install promotion
+				  //hideInstallPromotion();
+				  // Show the install prompt
+				  console.log(deferredPrompt);
+				  deferredPrompt.prompt();
+				  // Wait for the user to respond to the prompt
+				  const { outcome } = await deferredPrompt.userChoice;
+				  // Optionally, send analytics event with outcome of user choice
+				  console.log(`User response to the install prompt: ${outcome}`);
+				  // We've used the prompt, and can't use it again, throw it away
+				  deferredPrompt = null;
+				});
 			})
         	</script>
 		<style>
@@ -104,23 +119,6 @@
 		  //showInstallPromotion();
 		  // Optionally, send analytics event that PWA install promo was shown.
 		  console.log(`'beforeinstallprompt' event was fired.`);
-		});
-		
-		
-		var buttonInstall = $('#install');	
-		buttonInstall.addEventListener('click', async () => {
-		  console.log("Click registered");
-		  // Hide the app provided install promotion
-		  //hideInstallPromotion();
-		  // Show the install prompt
-		  console.log(deferredPrompt);
-		  deferredPrompt.prompt();
-		  // Wait for the user to respond to the prompt
-		  const { outcome } = await deferredPrompt.userChoice;
-		  // Optionally, send analytics event with outcome of user choice
-		  console.log(`User response to the install prompt: ${outcome}`);
-		  // We've used the prompt, and can't use it again, throw it away
-		  deferredPrompt = null;
 		});
 		</script>
 	</head>
